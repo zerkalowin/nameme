@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameMarket | Покупка игровых ценностей</title>
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="styles/animations.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav container">
+            <a href="#" class="logo">
+                <i class="fas fa-coins"></i>
+                GameMarket
+            </a>
+            
+            <div class="nav-menu" id="navMenu">
+                <a href="#home" class="nav-link">Главная</a>
+                <a href="#market" class="nav-link">Маркет</a>
+                <a href="#features" class="nav-link">Преимущества</a>
+                <a href="#sellers" class="nav-link">Топ продавцы</a>
+                <a href="#faq" class="nav-link">FAQ</a>
+                <a href="#contact" class="nav-link">Контакты</a>
+            </div>
+
+            <div class="nav-actions">
+                <button class="btn btn-outline">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Войти
+                </button>
+                <button class="btn btn-primary">
+                    <i class="fas fa-user-plus"></i>
+                    Регистрация
+                </button>
+            </div>
+
+            <div class="nav-toggle" id="navToggle">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-background">
+            <div class="particles" id="particles"></div>
+        </div>
+        <div class="hero-content container">
+            <div class="hero-text">
+                <h1 class="hero-title" data-aos="fade-up">
+                    <span class="gradient-text">Игровые ценности</span>
+                    <br>по лучшим ценам
+                </h1>
+                <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="100">
+                    Покупайте и продавайте игровые предметы, валюту и аккаунты
+                    с гарантией безопасности
+                </p>
+                <div class="hero-stats" data-aos="fade-up" data-aos-delay="200">
+                    <div class="stat">
+                        <span class="stat-number">50K+</span>
+                        <span class="stat-label">активных сделок</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">100%</span>
+                        <span class="stat-label">безопасность</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">24/7</span>
+                        <span class="stat-label">поддержка</span>
+                    </div>
+                </div>
+                <div class="hero-buttons" data-aos="fade-up" data-aos-delay="300">
+                    <a href="#market" class="btn btn-primary btn-lg">
+                        <i class="fas fa-shopping-cart"></i>
+                        Начать покупки
+                    </a>
+                    <a href="#market" class="btn btn-outline btn-lg">
+                        <i class="fas fa-dollar-sign"></i>
+                        Начать продавать
+                    </a>
+                </div>
+            </div>
+            <div class="hero-image" data-aos="fade-left" data-aos-delay="400">
+                <div class="floating-cards">
+                    <div class="floating-card card-1">
+                        <img src="https://via.placeholder.com/80x80/4f46e5/ffffff?text=WoW" alt="WoW Gold">
+                        <span>WoW Gold</span>
+                        <span class="price">$2.99</span>
+                    </div>
+                    <div class="floating-card card-2">
+                        <img src="https://via.placeholder.com/80x80/ec4899/ffffff?text=CS2" alt="CS2 Skin">
+                        <span>CS2 Skin</span>
+                        <span class="price">$15.50</span>
+                    </div>
+                    <div class="floating-card card-3">
+                        <img src="https://via.placeholder.com/80x80/10b981/ffffff?text=Dota" alt="Dota Items">
+                        <span>Dota Items</span>
+                        <span class="price">$7.25</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Market Section -->
+    <section id="market" class="market">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">
+                Популярные товары
+            </h2>
+            
+            <div class="market-filters" data-aos="fade-up" data-aos-delay="100">
+                <button class="filter-btn active">Все</button>
+                <button class="filter-btn">MMORPG</button>
+                <button class="filter-btn">Shooters</button>
+                <button class="filter-btn">MOBA</button>
+                <button class="filter-btn">Аккаунты</button>
+            </div>
+
+            <div class="market-grid">
+                <!-- Товары будут добавляться через JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Почему выбирают нас</h2>
+            
+            <div class="features-grid">
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>100% Безопасность</h3>
+                    <p>Гарантия безопасных сделок с защитой от мошенников</p>
+                </div>
+                
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Мгновенные сделки</h3>
+                    <p>Автоматическая система доставки товаров</p>
+                </div>
+                
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="feature-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3>Поддержка 24/7</h3>
+                    <p>Круглосуточная техническая поддержка</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content" data-aos="fade-up">
+                <h2>Начните зарабатывать уже сегодня!</h2>
+                <p>Присоединяйтесь к тысячам довольных покупателей и продавцов</p>
+                <button class="btn btn-primary btn-lg">
+                    <i class="fas fa-rocket"></i>
+                    Присоединиться
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>GameMarket</h3>
+                    <p>Лучшая площадка для игровых сделок</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Контакты</h4>
+                    <p>support@gamemarket.ru</p>
+                    <p>+7 (999) 123-45-67</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="scripts/script.js"></script>
+</body>
+</html>
