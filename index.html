@@ -3,199 +3,826 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GameMarket | Покупка игровых ценностей</title>
-    <link rel="stylesheet" href="styles/style.css">
-    <link rel="stylesheet" href="styles/animations.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>GameMarket - Площадка для игровых товаров</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-color: #4e73df;
+            --secondary-color: #f8f9fc;
+            --accent-color: #36b9cc;
+            --success-color: #1cc88a;
+            --warning-color: #f6c23e;
+            --danger-color: #e74a3b;
+            --dark-color: #2e3a59;
+            --light-color: #f8f9fc;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #f8f9fc;
+            overflow-x: hidden;
+            color: #444;
+        }
+
+        /* Анимации */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .animated {
+            animation-duration: 0.5s;
+            animation-fill-mode: both;
+        }
+
+        .fadeIn {
+            animation-name: fadeIn;
+        }
+
+        .slideInLeft {
+            animation-name: slideInLeft;
+        }
+
+        /* Навбар */
+        .navbar {
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            background: white;
+        }
+
+        .navbar-brand {
+            font-weight: 800;
+            color: var(--primary-color);
+        }
+
+        .nav-link {
+            font-weight: 600;
+            color: #555;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color);
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .btn-primary:hover {
+            background-color: #3a5fce;
+            border-color: #3a5fce;
+        }
+
+        /* Категории */
+        .category-card {
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            background: white;
+            height: 100%;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .category-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        /* Карточки товаров */
+        .product-card {
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            background: white;
+            height: 100%;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-price {
+            font-weight: 700;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+
+        /* Футер */
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 40px 0;
+        }
+
+        /* Модальные окна */
+        .modal-content {
+            border-radius: 10px;
+            border: none;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Формы */
+        .form-control {
+            border-radius: 8px;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(78, 115, 223, 0.25);
+        }
+
+        /* Админ-панель */
+        #adminPanel {
+            display: none;
+            background: white;
+            min-height: 100vh;
+        }
+
+        .admin-sidebar {
+            background: var(--dark-color);
+            color: white;
+            min-height: 100vh;
+            position: fixed;
+            width: 250px;
+        }
+
+        .admin-content {
+            margin-left: 250px;
+            padding: 20px;
+            width: calc(100% - 250px);
+        }
+
+        .admin-nav {
+            padding: 20px 0;
+        }
+
+        .admin-nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            display: block;
+            padding: 12px 20px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .admin-nav-link:hover, .admin-nav-link.active {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .stats-card {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .admin-sidebar {
+                width: 100%;
+                position: relative;
+                min-height: auto;
+            }
+            
+            .admin-content {
+                margin-left: 0;
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Preloader -->
-    <div class="preloader">
-        <div class="loader"></div>
-    </div>
-
-    <!-- Header -->
-    <header class="header">
-        <nav class="nav container">
-            <a href="#" class="logo">
-                <i class="fas fa-coins"></i>
-                GameMarket
-            </a>
-            
-            <div class="nav-menu" id="navMenu">
-                <a href="#home" class="nav-link">Главная</a>
-                <a href="#market" class="nav-link">Маркет</a>
-                <a href="#features" class="nav-link">Преимущества</a>
-                <a href="#sellers" class="nav-link">Топ продавцы</a>
-                <a href="#faq" class="nav-link">FAQ</a>
-                <a href="#contact" class="nav-link">Контакты</a>
-            </div>
-
-            <div class="nav-actions">
-                <button class="btn btn-outline">
-                    <i class="fas fa-sign-in-alt"></i>
-                    Войти
+    <!-- Основной контент -->
+    <div id="mainContent">
+        <!-- Навигационная панель -->
+        <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+            <div class="container">
+                <a class="navbar-brand" href="#">GameMarket</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
                 </button>
-                <button class="btn btn-primary">
-                    <i class="fas fa-user-plus"></i>
-                    Регистрация
-                </button>
-            </div>
-
-            <div class="nav-toggle" id="navToggle">
-                <i class="fa-solid fa-bars"></i>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">Главная</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Топ продавцы</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Помощь</a>
+                        </li>
+                    </ul>
+                    <div class="d-flex">
+                        <button class="btn btn-outline-primary me-2" onclick="showLoginModal()">Войти</button>
+                        <button class="btn btn-primary" onclick="showRegisterModal()">Регистрация</button>
+                    </div>
+                </div>
             </div>
         </nav>
-    </header>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-background">
-            <div class="particles" id="particles"></div>
-        </div>
-        <div class="hero-content container">
-            <div class="hero-text">
-                <h1 class="hero-title" data-aos="fade-up">
-                    <span class="gradient-text">Игровые ценности</span>
-                    <br>по лучшим ценам
-                </h1>
-                <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="100">
-                    Покупайте и продавайте игровые предметы, валюту и аккаунты
-                    с гарантией безопасности
-                </p>
-                <div class="hero-stats" data-aos="fade-up" data-aos-delay="200">
-                    <div class="stat">
-                        <span class="stat-number">50K+</span>
-                        <span class="stat-label">активных сделок</span>
+        <!-- Герой секция -->
+        <section class="py-5 bg-light">
+            <div class="container py-5">
+                <div class="row align-items-center">
+                    <div class="col-lg-6">
+                        <h1 class="display-4 fw-bold mb-4">Игровые товары и услуги</h1>
+                        <p class="lead mb-4">Покупайте и продавайте игровые ценности, аккаунты и услуги с минимальной комиссией и максимальной безопасностью</p>
+                        <button class="btn btn-primary btn-lg">Начать покупки</button>
                     </div>
-                    <div class="stat">
-                        <span class="stat-number">100%</span>
-                        <span class="stat-label">безопасность</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-number">24/7</span>
-                        <span class="stat-label">поддержка</span>
-                    </div>
-                </div>
-                <div class="hero-buttons" data-aos="fade-up" data-aos-delay="300">
-                    <a href="#market" class="btn btn-primary btn-lg">
-                        <i class="fas fa-shopping-cart"></i>
-                        Начать покупки
-                    </a>
-                    <a href="#market" class="btn btn-outline btn-lg">
-                        <i class="fas fa-dollar-sign"></i>
-                        Начать продавать
-                    </a>
-                </div>
-            </div>
-            <div class="hero-image" data-aos="fade-left" data-aos-delay="400">
-                <div class="floating-cards">
-                    <div class="floating-card card-1">
-                        <img src="https://via.placeholder.com/80x80/4f46e5/ffffff?text=WoW" alt="WoW Gold">
-                        <span>WoW Gold</span>
-                        <span class="price">$2.99</span>
-                    </div>
-                    <div class="floating-card card-2">
-                        <img src="https://via.placeholder.com/80x80/ec4899/ffffff?text=CS2" alt="CS2 Skin">
-                        <span>CS2 Skin</span>
-                        <span class="price">$15.50</span>
-                    </div>
-                    <div class="floating-card card-3">
-                        <img src="https://via.placeholder.com/80x80/10b981/ffffff?text=Dota" alt="Dota Items">
-                        <span>Dota Items</span>
-                        <span class="price">$7.25</span>
+                    <div class="col-lg-6">
+                        <img src="https://via.placeholder.com/600x400" class="img-fluid rounded shadow" alt="Game Market">
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Market Section -->
-    <section id="market" class="market">
-        <div class="container">
-            <h2 class="section-title" data-aos="fade-up">
-                Популярные товары
-            </h2>
+        <!-- Категории -->
+        <section class="py-5">
+            <div class="container">
+                <h2 class="text-center mb-5">Популярные категории</h2>
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="category-card p-4 text-center">
+                            <i class="bi bi-telegram category-icon"></i>
+                            <h3>Telegram</h3>
+                            <p>Аккаунты Telegram, подписки на каналы и другие услуги</p>
+                            <a href="#" class="btn btn-outline-primary">Смотреть товары</a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="category-card p-4 text-center">
+                            <i class="bi bi-steam category-icon"></i>
+                            <h3>Steam</h3>
+                            <p>Аккаунты Steam, игры, предметы и другие товары</p>
+                            <a href="#" class="btn btn-outline-primary">Смотреть товары</a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="category-card p-4 text-center">
+                            <i class="bi bi-controller category-icon"></i>
+                            <h3>Roblox</h3>
+                            <p>Аккаунты Roblox, Robux, предметы и внутриигровая валюта</p>
+                            <a href="#" class="btn btn-outline-primary">Смотреть товары</a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="category-card p-4 text-center">
+                            <i class="bi bi-joystick category-icon"></i>
+                            <h3>GTA 5</h3>
+                            <p>Аккаунты GTA Online, внутриигровая валюта, услуги по прокачке</p>
+                            <a href="#" class="btn btn-outline-primary">Смотреть товары</a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="category-card p-4 text-center">
+                            <i class="bi bi-ubuntu category-icon"></i>
+                            <h3>Ubisoft</h3>
+                            <p>Аккаунты Ubisoft, игры, внутриигровые предметы</p>
+                            <a href="#" class="btn btn-outline-primary">Смотреть товары</a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="category-card p-4 text-center">
+                            <i class="bi bi-plus-circle category-icon"></i>
+                            <h3>Другие категории</h3>
+                            <p>Множество других игр и платформ с различными товарами</p>
+                            <a href="#" class="btn btn-outline-primary">Смотреть все</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Популярные товары -->
+        <section class="py-5 bg-light">
+            <div class="container">
+                <h2 class="text-center mb-5">Популярные товары</h2>
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="product-card p-4">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="badge bg-success">В наличии</span>
+                                <span class="text-muted"><i class="bi bi-eye me-1"></i> 245</span>
+                            </div>
+                            <h4>Аккаунт Steam с CS:GO</h4>
+                            <p class="text-muted">Аккаунт с CS:GO, 5-й уровень, Prime статус</p>
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <span class="product-price">950 руб.</span>
+                                <button class="btn btn-sm btn-outline-primary">В корзину</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="product-card p-4">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="badge bg-success">В наличии</span>
+                                <span class="text-muted"><i class="bi bi-eye me-1"></i> 187</span>
+                            </div>
+                            <h4>10.000 Robux</h4>
+                            <p class="text-muted">Быстрая доставка, гарантия 100%</p>
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <span class="product-price">750 руб.</span>
+                                <button class="btn btn-sm btn-outline-primary">В корзину</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="product-card p-4">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="badge bg-warning">Мало</span>
+                                <span class="text-muted"><i class="bi bi-eye me-1"></i> 312</span>
+                            </div>
+                            <h4>GTA Online - 50.000.000$</h4>
+                            <p class="text-muted">Безопасный перевод, гарантия</p>
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <span class="product-price">1500 руб.</span>
+                                <button class="btn btn-sm btn-outline-primary">В корзину</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center mt-5">
+                    <a href="#" class="btn btn-primary">Смотреть все товары</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Как это работает -->
+        <section class="py-5">
+            <div class="container">
+                <h2 class="text-center mb-5">Как это работает</h2>
+                <div class="row g-4">
+                    <div class="col-md-4 text-center">
+                        <div class="bg-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                            <i class="bi bi-cart-plus text-white" style="font-size: 2rem;"></i>
+                        </div>
+                        <h4>Выберите товар</h4>
+                        <p>Найдите нужный товар в каталоге или воспользуйтесь поиском</p>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <div class="bg-success rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                            <i class="bi bi-credit-card text-white" style="font-size: 2rem;"></i>
+                        </div>
+                        <h4>Оплатите заказ</h4>
+                        <p>Оплатите товар удобным способом с защитой сделки</p>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <div class="bg-warning rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                            <i class="bi bi-chat-dots text-white" style="font-size: 2rem;"></i>
+                        </div>
+                        <h4>Получите товар</h4>
+                        <p>Свяжитесь с продавцом и получите товар в течение нескольких минут</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Футер -->
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 mb-4">
+                        <h5>GameMarket</h5>
+                        <p>Лучшая площадка для покупки и продажи игровых ценностей</p>
+                    </div>
+                    <div class="col-md-2 mb-4">
+                        <h5>О нас</h5>
+                        <ul class="list-unstyled">
+                            <li><a href="#" class="text-white text-decoration-none">О компании</a></li>
+                            <li><a href="#" class="text-white text-decoration-none">Контакты</a></li>
+                            <li><a href="#" class="text-white text-decoration-none">Правила</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-2 mb-4">
+                        <h5>Помощь</h5>
+                        <ul class="list-unstyled">
+                            <li><a href="#" class="text-white text-decoration-none">FAQ</a></li>
+                            <li><a href="#" class="text-white text-decoration-none">Поддержка</a></li>
+                            <li><a href="#" class="text-white text-decoration-none">Гарантии</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <h5>Мы в соцсетях</h5>
+                        <div class="d-flex gap-3">
+                            <a href="#" class="text-white"><i class="bi bi-telegram" style="font-size: 1.5rem;"></i></a>
+                            <a href="#" class="text-white"><i class="bi bi-vk" style="font-size: 1.5rem;"></i></a>
+                            <a href="#" class="text-white"><i class="bi bi-youtube" style="font-size: 1.5rem;"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <hr class="bg-light">
+                <div class="text-center">
+                    <p>© 2023 GameMarket. Все права защищены.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Админ-панель (изначально скрыта) -->
+    <div id="adminPanel">
+        <div class="admin-sidebar">
+            <div class="p-4">
+                <h4 class="text-white">Админ-панель</h4>
+            </div>
+            <div class="admin-nav">
+                <a href="#" class="admin-nav-link active"><i class="bi bi-speedometer2 me-2"></i> Дашборд</a>
+                <a href="#" class="admin-nav-link"><i class="bi bi-grid me-2"></i> Категории</a>
+                <a href="#" class="admin-nav-link"><i class="bi bi-tags me-2"></i> Товары</a>
+                <a href="#" class="admin-nav-link"><i class="bi bi-cart me-2"></i> Заказы</a>
+                <a href="#" class="admin-nav-link"><i class="bi bi-people me-2"></i> Пользователи</a>
+                <a href="#" class="admin-nav-link"><i class="bi bi-gear me-2"></i> Настройки</a>
+                <a href="#" class="admin-nav-link" onclick="hideAdminPanel()"><i class="bi bi-arrow-left me-2"></i> На сайт</a>
+            </div>
+        </div>
+        <div class="admin-content">
+            <h2 class="mb-4">Дашборд</h2>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="stats-card">
+                        <div class="d-flex align-items-center">
+                            <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                <i class="bi bi-people text-white"></i>
+                            </div>
+                            <div>
+                                <h6 class="text-muted">Пользователи</h6>
+                                <h4>1,254</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stats-card">
+                        <div class="d-flex align-items-center">
+                            <div class="bg-success rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                <i class="bi bi-tags text-white"></i>
+                            </div>
+                            <div>
+                                <h6 class="text-muted">Товары</h6>
+                                <h4>5,421</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stats-card">
+                        <div class="d-flex align-items-center">
+                            <div class="bg-warning rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                <i class="bi bi-cart text-white"></i>
+                            </div>
+                            <div>
+                                <h6 class="text-muted">Заказы</h6>
+                                <h4>2,154</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stats-card">
+                        <div class="d-flex align-items-center">
+                            <div class="bg-danger rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                <i class="bi bi-currency-dollar text-white"></i>
+                            </div>
+                            <div>
+                                <h6 class="text-muted">Доход</h6>
+                                <h4>154,250₽</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <div class="stats-card">
+                        <h5>Последние заказы</h5>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Покупатель</th>
+                                        <th>Сумма</th>
+                                        <th>Статус</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>#1254</td>
+                                        <td>Иван Петров</td>
+                                        <td>1,250₽</td>
+                                        <td><span class="badge bg-success">Завершен</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>#1253</td>
+                                        <td>Мария Сидорова</td>
+                                        <td>2,500₽</td>
+                                        <td><span class="badge bg-warning">В процессе</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>#1252</td>
+                                        <td>Алексей Иванов</td>
+                                        <td>750₽</td>
+                                        <td><span class="badge bg-danger">Отменен</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="stats-card">
+                        <h5>Новые пользователи</h5>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Имя</th>
+                                        <th>Дата регистрации</th>
+                                        <th>Статус</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Дмитрий Смирнов</td>
+                                        <td>12.05.2023</td>
+                                        <td><span class="badge bg-success">Активен</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ольга Кузнецова</td>
+                                        <td>11.05.2023</td>
+                                        <td><span class="badge bg-success">Активен</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Сергей Васильев</td>
+                                        <td>10.05.2023</td>
+                                        <td><span class="badge bg-warning">На проверке</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно входа -->
+    <div class="modal fade" id="loginModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Вход в аккаунт</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="loginForm">
+                        <div class="mb-3">
+                            <label for="loginUsername" class="form-label">Логин</label>
+                            <input type="text" class="form-control" id="loginUsername" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="loginPassword" class="form-label">Пароль</label>
+                            <input type="password" class="form-control" id="loginPassword" required>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="rememberMe">
+                            <label class="form-check-label" for="rememberMe">Запомнить меня</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Войти</button>
+                    </form>
+                    <div class="text-center mt-3">
+                        <p>Нет аккаунта? <a href="#" onclick="showRegisterModal()">Зарегистрироваться</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно регистрации -->
+    <div class="modal fade" id="registerModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Регистрация аккаунта</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="registerForm">
+                        <div class="mb-3">
+                            <label for="registerUsername" class="form-label">Логин</label>
+                            <input type="text" class="form-control" id="registerUsername" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="registerPassword" class="form-label">Пароль</label>
+                            <input type="password" class="form-control" id="registerPassword" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirmPassword" class="form-label">Подтвердите пароль</label>
+                            <input type="password" class="form-control" id="confirmPassword" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="registerEmail" class="form-label">Email (необязательно)</label>
+                            <input type="email" class="form-control" id="registerEmail">
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Зарегистрироваться</button>
+                    </form>
+                    <div class="text-center mt-3">
+                        <p>Уже есть аккаунт? <a href="#" onclick="showLoginModal()">Войти</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно создания лота -->
+    <div class="modal fade" id="createLotModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Создание нового лота</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="createLotForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="lotCategory" class="form-label">Категория</label>
+                                <select class="form-select" id="lotCategory" required>
+                                    <option value="">Выберите категорию</option>
+                                    <option value="telegram">Telegram</option>
+                                    <option value="steam">Steam</option>
+                                    <option value="roblox">Roblox</option>
+                                    <option value="gta5">GTA 5</option>
+                                    <option value="ubisoft">Ubisoft</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="lotSubcategory" class="form-label">Подкатегория</label>
+                                <select class="form-select" id="lotSubcategory" required>
+                                    <option value="">Выберите подкатегорию</option>
+                                    <option value="accounts">Аккаунты</option>
+                                    <option value="currency">Игровая валюта</option>
+                                    <option value="items">Предметы</option>
+                                    <option value="services">Услуги</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="lotTitle" class="form-label">Название лота</label>
+                            <input type="text" class="form-control" id="lotTitle" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="lotShortDescription" class="form-label">Краткое описание</label>
+                            <input type="text" class="form-control" id="lotShortDescription" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="lotDescription" class="form-label">Полное описание</label>
+                            <textarea class="form-control" id="lotDescription" rows="4" required></textarea>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="lotPrice" class="form-label">Цена (руб.)</label>
+                                <input type="number" class="form-control" id="lotPrice" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="lotCommission" class="form-label">Комиссия (5%)</label>
+                                <input type="text" class="form-control" id="lotCommission" value="Расчет после ввода цены" readonly>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="lotImages" class="form-label">Изображения товара</label>
+                            <input type="file" class="form-control" id="lotImages" multiple>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Создать лот</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Инициализация модальных окон
+        const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+        const registerModal = new bootstrap.Modal(document.getElementById('registerModal'));
+        const createLotModal = new bootstrap.Modal(document.getElementById('createLotModal'));
+
+        // Показ модального окна входа
+        function showLoginModal() {
+            loginModal.show();
+        }
+
+        // Показ модального окна регистрации
+        function showRegisterModal() {
+            registerModal.show();
+        }
+
+        // Показ модального окна создания лота
+        function showCreateLotModal() {
+            createLotModal.show();
+        }
+
+        // Показ админ-панели
+        function showAdminPanel() {
+            document.getElementById('mainContent').style.display = 'none';
+            document.getElementById('adminPanel').style.display = 'flex';
+        }
+
+        // Скрытие админ-панели
+        function hideAdminPanel() {
+            document.getElementById('adminPanel').style.display = 'none';
+            document.getElementById('mainContent').style.display = 'block';
+        }
+
+        // Обработка формы входа
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
             
-            <div class="market-filters" data-aos="fade-up" data-aos-delay="100">
-                <button class="filter-btn active">Все</button>
-                <button class="filter-btn">MMORPG</button>
-                <button class="filter-btn">Shooters</button>
-                <button class="filter-btn">MOBA</button>
-                <button class="filter-btn">Аккаунты</button>
-            </div>
+            // Простая проверка (в реальном приложении нужно подключение к БД)
+            if (username === 'admin' && password === 'admin') {
+                alert('Вход выполнен успешно!');
+                loginModal.hide();
+                
+                // Если администратор - показываем кнопку админ-панели
+                if (username === 'admin') {
+                    // Здесь можно добавить кнопку для перехода в админ-панель
+                }
+            } else {
+                alert('Неверный логин или пароль!');
+            }
+        });
 
-            <div class="market-grid">
-                <!-- Товары будут добавляться через JavaScript -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Features Section -->
-    <section id="features" class="features">
-        <div class="container">
-            <h2 class="section-title" data-aos="fade-up">Почему выбирают нас</h2>
+        // Обработка формы регистрации
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
             
-            <div class="features-grid">
-                <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
-                    <div class="feature-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3>100% Безопасность</h3>
-                    <p>Гарантия безопасных сделок с защитой от мошенников</p>
-                </div>
-                
-                <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
-                    <div class="feature-icon">
-                        <i class="fas fa-bolt"></i>
-                    </div>
-                    <h3>Мгновенные сделки</h3>
-                    <p>Автоматическая система доставки товаров</p>
-                </div>
-                
-                <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
-                    <div class="feature-icon">
-                        <i class="fas fa-headset"></i>
-                    </div>
-                    <h3>Поддержка 24/7</h3>
-                    <p>Круглосуточная техническая поддержка</p>
-                </div>
-            </div>
-        </div>
-    </section>
+            if (password !== confirmPassword) {
+                alert('Пароли не совпадают!');
+                return;
+            }
+            
+            alert('Регистрация прошла успешно!');
+            registerModal.hide();
+        });
 
-    <!-- CTA Section -->
-    <section class="cta">
-        <div class="container">
-            <div class="cta-content" data-aos="fade-up">
-                <h2>Начните зарабатывать уже сегодня!</h2>
-                <p>Присоединяйтесь к тысячам довольных покупателей и продавцов</p>
-                <button class="btn btn-primary btn-lg">
-                    <i class="fas fa-rocket"></i>
-                    Присоединиться
-                </button>
-            </div>
-        </div>
-    </section>
+        // Обработка формы создания лота
+        document.getElementById('createLotForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Лот успешно создан!');
+            createLotModal.hide();
+        });
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>GameMarket</h3>
-                    <p>Лучшая площадка для игровых сделок</p>
-                </div>
-                <div class="footer-section">
-                    <h4>Контакты</h4>
-                    <p>support@gamemarket.ru</p>
-                    <p>+7 (999) 123-45-67</p>
-                </div>
-            </div>
-        </div>
-    </footer>
+        // Расчет комиссии при изменении цены
+        document.getElementById('lotPrice').addEventListener('input', function() {
+            const price = parseFloat(this.value) || 0;
+            const commission = price * 0.05;
+            document.getElementById('lotCommission').value = commission.toFixed(2) + ' руб.';
+        });
 
-    <script src="scripts/script.js"></script>
+        // Проверка URL для показа админ-панели
+        function checkUrlForAdminPanel() {
+            if (window.location.hash === '#/adminka') {
+                showAdminPanel();
+            }
+        }
+
+        // Проверяем URL при загрузке и при изменении хэша
+        window.addEventListener('load', checkUrlForAdminPanel);
+        window.addEventListener('hashchange', checkUrlForAdminPanel);
+
+        // Инициализация анимаций при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            const animatedElements = document.querySelectorAll('.category-card, .product-card');
+            animatedElements.forEach((element, index) => {
+                element.classList.add('animated', 'fadeIn');
+                element.style.animationDelay = `${index * 0.1}s`;
+            });
+        });
+    </script>
 </body>
 </html>
